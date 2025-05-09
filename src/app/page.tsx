@@ -146,8 +146,8 @@ export default function Home() {
   const isRotated = rotate % 180 !== 0;
   const videoStyle: React.CSSProperties = {
     transform: `rotate(${rotate}deg)`,
-    maxHeight: isRotated ? "100vw" : "100vh",
-    maxWidth: isRotated ? "100vh" : "100vw",
+    width: isRotated ? "100vh" : "100vw",
+    height: isRotated ? "100vw" : "100vh",
     objectFit: "contain",
   };
 
