@@ -1,39 +1,52 @@
 # Local Video Player
 
-This web application is a simple local video player built with Next.js.  
-It features an extremely minimalist UI, and basic operations are primarily controlled via keyboard shortcuts.
+A tiny, local-only video player built with **Next.js**.  
+Everything is kept minimal: there are **no menus, no buttons**—just your video and a handful of keyboard shortcuts.
 
-A seek bar is located at the bottom of the screen, allowing you to jump to any position in the video by clicking with your mouse.
+_You can drag-and-drop one **or many** video files; they will be treated as a playlist._
 
-## Basic Controls
+A thin seek-bar appears at the bottom and lets you click-to-seek.
 
-- Drag and drop a video file to start playback.
-- Press `h`: Rewind 5 seconds
-- Press `l`: Forward 5 seconds
-- Press `k`: Increase volume by 5%
-- Press `j`: Decrease volume by 5%
-- Press `f`: Enter fullscreen mode
-- Press `r`: Rotate the video 90 degrees to the right
+## Keyboard Shortcuts (EN)
 
-_Note: The initial volume is set to 0%._
+| Key       | Action                | Notes                                          |
+| --------- | --------------------- | ---------------------------------------------- |
+| **space** | Play / Pause          |                                                |
+| **h**     | Rewind 5 s            |                                                |
+| **l**     | Forward 5 s           |                                                |
+| **k**     | Volume +5 %           |                                                |
+| **j**     | Volume -5 %           |                                                |
+| **f**     | Toggle fullscreen     |                                                |
+| **r**     | Rotate +90° clockwise | Cycles through 0°→90°→180°→270°                |
+| **p**     | Previous video        | Loops to the last video if you’re on the first |
+| **n**     | Next video            | Loops to the first video if you’re on the last |
+
+> **Initial volume is set to 0 %.**  
+> The UI (seek-bar & overlays) auto-hides after 3 s of inactivity but re-appears on mouse movement.
 
 ---
 
 ## ローカルビデオプレイヤー
 
-このウェブアプリケーションは、Next.jsで開発されたローカルビデオ再生用のシンプルなアプリケーションです。  
-極限まで簡素化されたUIを特徴としており、基本的な操作はキーボードショートカットで行います。
+このアプリは **Next.js** で作られた、ローカル再生専用の超ミニマルなビデオプレイヤーです。  
+メニューやボタンはなく、**キーボードショートカット**だけで操作します。
 
-画面下部にはシークバーがあり、マウスクリックで任意の再生位置にジャンプできます。
+複数ファイルをドラッグアンドドロップすると、その順にプレイリストとして再生されます。  
+画面下部にシークバーがあり、クリックで任意の位置へジャンプできます。
 
-### 基本操作方法
+### キーボード操作 (JA)
 
-- 動画ファイルをドラッグアンドドロップして再生を開始してください。
-- `h` キー：5秒戻る
-- `l` キー：5秒進む
-- `k` キー：音量を5%上げる
-- `j` キー：音量を5%下げる
-- `f` キー：全画面表示
-- `r` キー：動画を右に90度回転
+| キー      | 動作            | 補足                           |
+| --------- | --------------- | ------------------------------ |
+| **space** | 再生 / 一時停止 |                                |
+| **h**     | 5 秒戻る        |                                |
+| **l**     | 5 秒進む        |                                |
+| **k**     | 音量 +5 %       |                                |
+| **j**     | 音量 -5 %       |                                |
+| **f**     | 全画面切替      |                                |
+| **r**     | 右回転 90°      | 0°→90°→180°→270° と循環        |
+| **p**     | 前の動画へ      | 先頭で押すと最後の動画へループ |
+| **n**     | 次の動画へ      | 最後で押すと先頭の動画へループ |
 
-※音量の初期値は0%に設定されています。
+> **初期音量は 0 %** です。  
+> UI（シークバー・オーバーレイ）は 3 秒操作がないと自動で隠れ、マウスを動かすと再表示されます。

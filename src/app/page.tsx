@@ -7,14 +7,13 @@ type VideoFile = File & { url: string };
 export default function Home() {
   const videoRef = useRef<HTMLVideoElement>(null);
 
-  const [file, setFile] = useState<VideoFile | null>(null);
-  const [rotate, setRotate] = useState(0);
+  const [videos, setVideos] = useState<VideoFile[]>([]);
+  const [current, setCurrent] = useState(0);
+  const file = videos[current] ?? null;
 
-  /** seek-bar／各種 UI を表示するか */
+  const [rotate, setRotate] = useState(0);
   const [showUI, setShowUI] = useState(false);
   const hideUITimer = useRef<NodeJS.Timeout | null>(null);
-
-  /** overlay */
   const [overlay, setOverlay] = useState("");
   const [progress, setProgress] = useState(0);
 
@@ -37,14 +36,15 @@ export default function Home() {
   /* -------------------- ドロップ -------------------- */
   const handleDrop = (e: React.DragEvent) => {
     e.preventDefault();
-    const droppedFile = Array.from(e.dataTransfer.files).find((f) =>
-      f.type.startsWith("video/"),
-    );
-    if (droppedFile) {
-      const videoFile: VideoFile = Object.assign(droppedFile, {
-        url: URL.createObjectURL(droppedFile),
-      });
-      setFile(videoFile);
+    const dropped = Array.from(e.dataTransfer.files)
+      .filter((f) => f.type.startsWith("video/"))
+      .map((f) =>
+        Object.assign(f, { url: URL.createObjectURL(f) }),
+      ) as VideoFile[];
+
+    if (dropped.length) {
+      setVideos((prev) => [...prev, ...dropped]);
+      if (!videos.length) setCurrent(0); // 初回のみ 0 固定
     }
   };
 
@@ -106,6 +106,22 @@ export default function Home() {
         setRotate((prev) => (prev + 90) % 360);
         showOverlay("回転");
         break;
+      case "p":
+        if (videos.length > 1) {
+          setCurrent((i) => (i === 0 ? videos.length - 1 : i - 1));
+          setProgress(0);
+          setRotate(0);
+          showOverlay("前の動画");
+        }
+        break;
+      case "n":
+        if (videos.length > 1) {
+          setCurrent((i) => (i + 1) % videos.length);
+          setProgress(0);
+          setRotate(0);
+          showOverlay("次の動画");
+        }
+        break;
     }
   };
 
@@ -120,8 +136,9 @@ export default function Home() {
       window.removeEventListener("pointermove", handlePointerMove);
       document.removeEventListener("fullscreenchange", handlePointerMove);
       if (hideUITimer.current) clearTimeout(hideUITimer.current);
+      videos.forEach((v) => URL.revokeObjectURL(v.url));
     };
-  }, []);
+  }, [videos]);
 
   /* ファイル読み込み時：初期状態で 3 秒だけ seek-bar 表示 */
   useEffect(() => {
