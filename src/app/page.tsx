@@ -38,14 +38,27 @@ export default function Home() {
     e.preventDefault();
     const dropped = Array.from(e.dataTransfer.files)
       .filter((f) => f.type.startsWith("video/"))
+      .sort((a, b) =>
+        a.name.localeCompare(b.name, "ja", {
+          numeric: true,
+          sensitivity: "base",
+        }),
+      )
       .map((f) =>
         Object.assign(f, { url: URL.createObjectURL(f) }),
       ) as VideoFile[];
 
-    if (dropped.length) {
-      setVideos((prev) => [...prev, ...dropped]);
-      if (!videos.length) setCurrent(0); // 初回のみ 0 固定
-    }
+    if (!dropped.length) return;
+
+    videos.forEach((v) => URL.revokeObjectURL(v.url));
+
+    setVideos(dropped);
+    setCurrent(0);
+    setProgress(0);
+    setRotate(0);
+    setOverlay("");
+    setShowUI(true);
+    scheduleHideUI();
   };
 
   /* -------------------- フルスクリーン -------------------- */
